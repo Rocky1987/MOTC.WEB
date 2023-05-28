@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="26px" viewBox="0 0 34 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_ship_tracks</title>
+    <defs>
+        <polygon id="path-1" points="0.838 0.431 1.838 0.431 1.838 2.359 0.838 2.359"></polygon>
+        <polygon id="path-3" points="0 0.1796 17.6358 0.1796 17.6358 4.9996 0 4.9996"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV" transform="translate(-949.000000, -166.000000)">
+            <g id="icon_ship_tracks" transform="translate(949.500000, 166.000000)">
+                <g id="path" transform="translate(0.000000, 10.061600)" fill="#FFFFFF" fill-rule="nonzero">
+                    <path d="M1.4905,15 C0.6605,14.99 0.0005,14.31 0.0005,13.48 C0.0105,12.65 0.6905,11.99 1.5205,12 C2.3505,12.01 3.0105,12.69 3.0005,13.52 C2.9905,14.34 2.3205,15 1.5005,15 L1.4905,15 Z" id="Fill-11"></path>
+                    <path d="M2.0202,11.04 C1.2902,10.63 1.0302,9.72 1.4302,9 C1.8302,8.27 2.7402,8.01 3.4702,8.41 C4.1902,8.81 4.4602,9.72 4.0502,10.45 C3.7802,10.94 3.2702,11.22 2.7402,11.22 C2.4902,11.22 2.2502,11.16 2.0202,11.04" id="Fill-13" opacity="0.4"></path>
+                    <path d="M4.0906,7.6099 C3.5006,7.0399 3.4806,6.0899 4.0606,5.4899 C4.6406,4.8999 5.5906,4.8799 6.1806,5.4599 C6.7806,6.0399 6.7906,6.9899 6.2106,7.5799 C5.9206,7.8899 5.5306,8.0399 5.1406,8.0399 C4.7606,8.0399 4.3806,7.8999 4.0906,7.6099" id="Fill-15"></path>
+                    <path d="M6.9602,4.8301 C6.4902,4.1501 6.6502,3.2101 7.3302,2.7401 C8.0102,2.2601 8.9402,2.4301 9.4202,3.1101 C9.8902,3.7801 9.7302,4.7201 9.0502,5.1901 C8.7902,5.3801 8.4902,5.4701 8.1902,5.4701 C7.7202,5.4701 7.2502,5.2401 6.9602,4.8301" id="Fill-17" opacity="0.4"></path>
+                    <path d="M10.2903,2.6001 C9.9103,1.8601 10.2003,0.9601 10.9403,0.5901 C11.6803,0.2101 12.5903,0.5101 12.9603,1.2501 C13.3403,1.9801 13.0403,2.8901 12.3003,3.2601 C12.0803,3.3701 11.8503,3.4301 11.6203,3.4301 C11.0803,3.4301 10.5503,3.1201 10.2903,2.6001" id="Fill-19"></path>
+                </g>
+                <g id="ship" transform="translate(15.000000, 0.000000)">
+                    <polygon id="Fill-1" fill="#FFFFFF" fill-rule="nonzero" points="2.8926 3.8919 2.8926 4.8569 10.8876 4.8569 9.9236 3.8919"></polygon>
+                    <g id="Group-7" transform="translate(1.000000, 0.568800)">
+                        <g id="Fill-2-Clipped" transform="translate(2.000000, 0.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <g id="path-1"></g>
+                            <polygon id="Fill-2" fill="#FFFFFF" fill-rule="nonzero" opacity="0.4" mask="url(#mask-2)" points="0.856 2.359 1.82 2.359 1.82 0.431 0.856 0.431"></polygon>
+                        </g>
+                        <polygon id="Fill-5" fill="#FFFFFF" fill-rule="nonzero" opacity="0.4" points="10.1839 6.2158 12.7789 6.2158 11.8149 5.2518 0.9279 5.2518 0.9279 6.2158 10.1829 6.2158"></polygon>
+                    </g>
+                    <polygon id="Fill-8" fill="#FFFFFF" fill-rule="nonzero" points="1.9278 7.7484 1.9278 8.7124 8.9658 8.7124 9.9788 7.7484"></polygon>
+                    <g id="Fill-9-Clipped" transform="translate(0.000000, 7.568800)">
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <g id="path-3"></g>
+                        <path d="M11.3758,0.1796 L9.4908,1.9746 C9.4008,2.0596 9.2828,2.1076 9.1588,2.1076 L-0.0002,2.1076 L-0.0002,4.9996 L12.8148,4.9996 L17.6358,0.1796 L11.3758,0.1796 Z" id="Fill-9" fill="#FFFFFF" fill-rule="nonzero" mask="url(#mask-4)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

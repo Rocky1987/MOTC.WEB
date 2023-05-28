@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content="智慧航安資訊平臺系統 Backend System">
+	<link rel="shortcut icon" href="../img/backend_img/favicon.png">
+	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.js"></script><!-- 表單驗證 -->
+	<script type="text/javascript" src="../js/jquery.metadata.js"></script><!-- 用來判斷表單驗證的長度或數字的JS -->
+	<script type="text/javascript" src="../js/messages_zh_TW.js"></script>
+	<script type="text/javascript" src="../js/jquery.preload.js"></script>
+	<link rel="stylesheet" href="../css/backend.css">
+	<link rel="stylesheet" href="../css/all.min.css">
+	<!--[if IE]>
+		<link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+		<link href="/css/font-awesome-ie7.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<title>智慧航安資訊平臺系統 Backend System Sign in</title>
+</head>
+
+<body style="background: #0071BE;">
+	<div class="page-logo">
+		<img src="../img/logo.svg" alt="">
+	</div>
+	<div class="login-page-mask"></div>
+	<div class="video-full-box">
+		<video autoplay muted loop class="video-full-bg">
+			<source src="../video/digital.mp4" type="video/mp4">
+		</video>
+	</div>
+	<div class="login-page-bg">
+		<div class="loain-box">
+			<form action="system_sel.html" method="get" name="login" id="login">
+				<div class="login">
+					<div class="logo"></div>
+					<h1>智慧航安資訊平臺系統</h1>
+					<div class="input-box">
+						<i class="fad fa-address-card"></i>
+						<input type="text" name="account" placeholder="Username" class="input-sty required" />
+					</div>
+					<div class="input-box">
+						<i class="fad fa-lock-alt"></i>
+						<input type="password" name="password" placeholder="Password" class="input-sty required" />
+					</div>
+					<!-- <div class="login-error-mesg" style="display:;"><i class="fa fa-exclamation-circle"></i> 您的帳號密碼錯誤。</div> -->
+					<div class="login-btn-box">
+						<input type="submit" class="login-submit-btn" value="登入" />
+					</div>
+					<div class="login-footer">
+						© 2020, 交通部航港局
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function () {
+			var validator = $("#login").validate({
+				submitHandler: function (form) {
+					form.submit();
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>
