@@ -14,6 +14,7 @@
 	<!-- 日期選擇 -->
 	<script type="text/javascript" src="Twn_D/js/datepicker.min.js"></script>
 	<script src="Twn_D/js/i18n/datepicker.en.js"></script>
+	<script src="Twn_D/js/vue/vue.global.prod.min.js"></script>
 
 
 
@@ -43,7 +44,7 @@
 		</div>
 		<div class="user-info">
 			<div class="user-id">
-				Hello , <span>Admin</span> 您好
+				Hello , <span id="user-id">Admin</span> 您好
 			</div>
 			<div class="user-setting">
 				<a href="###">
@@ -61,7 +62,7 @@
 
 
 	<!-- main page -->
-	<div class="main-box">
+	<div class="main-box" id="app">
 		<!-- 開啟繪圖 -->
 		<div class="btn-draw" id="btnDraw" title="繪圖" alt="繪圖">
 			<label for="mapDraw"></label>
@@ -104,6 +105,7 @@
 				<div class="doc-tit">標題</div>
 				<div class="doc-del">刪除</div>
 			</div>
+			<div>{{account}}</div>
 			<ul class="draw-list">
 				<li>
 					<div class="no-box">5</div>
@@ -3222,12 +3224,12 @@
 			$("#mtnetBox").resize(function () {
 				console.log("move")
 			})
-
 		})
 
 	</script>
 	<!-- <script src="Twn_D/js/transformDMS.js"></script> -->
 	<script type="text/javascript" src="Twn_D/js/backend.js"></script>
+	<script type="text/javascript" type="module" src="Twn_D/js/map/mapData.js"></script>
 </body>
 
 </html>
