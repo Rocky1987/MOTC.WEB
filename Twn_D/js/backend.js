@@ -106,15 +106,15 @@ $(window).on('load', function () {
 	})
 
 	$('#openNewDraw').on('click',function(){
-		$('#fileListBox').show();
-		$('#historyListBox').hide();
+		$('#historyListBox').show();
+		$('#fileListBox').hide();
 		$('#drawColorPanel').show();
 		$('#drawSymboPanel').show();
 
 	})
 	$('#openOldDraw').on('click',function(){
-		$('#historyListBox').show();
-		$('#fileListBox').hide();
+		$('#fileListBox').show();
+		$('#historyListBox').hide();
 		$('#drawColorPanel').show();
 		$('#drawSymboPanel').show();
 	})
