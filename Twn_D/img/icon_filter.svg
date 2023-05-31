@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_filter</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Apple-TV" transform="translate(-186.000000, -166.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="icon_filter" transform="translate(186.833333, 166.000000)">
+                <path d="M15.7809659,1.28122833 L9.99981368,7.06019306 L9.99981368,15.249742 C9.99981368,15.8594192 9.31232531,16.2094133 8.81983364,15.8641066 L6.31987593,14.1141362 C6.1193618,13.9738234 5.99991358,13.7445033 5.99988135,13.4997716 L5.99988135,7.06238052 L0.218729149,1.28122833 C-0.250012921,0.808423824 0.0840439272,7.10542736e-15 0.749970162,7.10542736e-15 L15.2497249,7.10542736e-15 C15.9162761,7.10542736e-15 16.2497079,0.809361308 15.7809659,1.28122833 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>
