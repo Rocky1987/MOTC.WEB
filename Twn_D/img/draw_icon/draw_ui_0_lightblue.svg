@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>draw_ui_0_lightblue</title>
+    <g id="lightblue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="draw_ui_0_lightblue">
+            <circle id="Oval" fill="#16CBEF" cx="8" cy="8" r="3"></circle>
+            <circle id="Oval" stroke="#16CBEF" stroke-width="2" cx="8" cy="8" r="7"></circle>
+        </g>
+    </g>
+</svg>
