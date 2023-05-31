@@ -106,15 +106,15 @@ $(window).on('load', function () {
 	})
 
 	$('#openNewDraw').on('click',function(){
-		$('#fileListBox').show();
-		$('#historyListBox').hide();
+		$('#historyListBox').show();
+		$('#fileListBox').hide();
 		$('#drawColorPanel').show();
 		$('#drawSymboPanel').show();
 
 	})
 	$('#openOldDraw').on('click',function(){
-		$('#historyListBox').show();
-		$('#fileListBox').hide();
+		$('#fileListBox').show();
+		$('#historyListBox').hide();
 		$('#drawColorPanel').show();
 		$('#drawSymboPanel').show();
 	})
@@ -122,11 +122,15 @@ $(window).on('load', function () {
 		$('#historyListBox').hide();
 		$('#drawColorPanel').hide();
 		$('#drawSymboPanel').hide();
+		$('#downladFormat').hide();
+		$('#saveFile').hide();
 	})
 	$('#closeFileListBox').on('click',function(){
 		$('#fileListBox').hide();
 		$('#drawColorPanel').hide();
 		$('#drawSymboPanel').hide();
+		$('#downladFormat').hide();
+		$('#saveFile').hide();
 	})
 
 	// 選擇顏色
@@ -139,6 +143,22 @@ $(window).on('load', function () {
 		$('.symbo-item').removeClass('on')
 		$(this).toggleClass("on");
 	});
+
+	// 下載
+	$('.h-btn-download').on( "click", function() {
+		$('#downladFormat').show();
+	});
+	
+	//關閉下載
+	$('.history-cancel').on( "click", function() {
+		$('#downladFormat').hide();
+		$('#saveFile').hide();
+	});
+	//開啟儲存
+	$('.h-btn-save').on( "click", function() {
+		$('#saveFile').show();
+	});
+	
 
 })
 $(window).resize(function () {

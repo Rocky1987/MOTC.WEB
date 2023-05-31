@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="24px" viewBox="0 0 18 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>draw_mark_0_pink</title>
+    <g id="pink" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7-Copy-86" transform="translate(-13.000000, -11.000000)" fill="#D430DA" fill-rule="nonzero">
+            <g id="draw_mark_0_pink" transform="translate(13.000000, 11.000000)">
+                <path d="M9,24 C9,24 18,14.25 18,9 C18,4.03125 13.96875,0 9,0 C4.03125,0 0,4.03125 0,9 C0,14.25 9,24 9,24 Z M9,6 C10.6568542,6 12,7.34314575 12,9 C12,10.6568542 10.6568542,12 9,12 C7.34314575,12 6,10.6568542 6,9 C6,7.34314575 7.34314575,6 9,6 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
