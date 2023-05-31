@@ -77,9 +77,61 @@
 			<button class="history-btn btn-green" id="openOldDraw">開啟歷史繪圖</button>
 		</div>
 
+		<!-- 儲存提示 -->
+		<div class="mmesg-box" id="saveFile" style="display: none;">
+			<div class="mmesg-tit">儲存繪圖</div>
+			<div class="mmesg-cont">
+				<p>標題</p>
+				<div class="mmesg-txt">
+					<input type="text" placeholder="請輸入標題" class="input-sty">
+				</div>
+			</div>
+			<div class="mmesg-bot">
+				<button class="history-btn history-cancel">取消</button>
+				<button class="history-btn">確認</button>
+			</div>
+		</div>
+
+		<!-- 下載格式 -->
+		<div class="mmesg-box" id="downladFormat" style="display:none;">
+			<div class="mmesg-tit">下載圖片</div>
+			<div class="mmesg-cont">
+				<p>選擇下載格式</p>
+				<div class="mmesg-txt">
+					<div class="mm-checkbox-box">
+						<label for="format1">
+							<input type="radio" name="formatGroup" id="format1" checked>
+							<div class="check-boxs"></div>
+							<span>PDF</span>
+						</label>
+						<label for="format2">
+							<input type="radio" name="formatGroup" id="format2">
+							<div class="check-boxs">
+								<img src="Twn_D/img/icon_check.svg" alt="">
+							</div>
+							<span>PNG</span>
+						</label>
+						<label for="format3">
+							<input type="radio" name="formatGroup" id="format3">
+							<div class="check-boxs">
+								<img src="Twn_D/img/icon_check.svg" alt="">
+							</div>
+							<span>JPG</span>
+						</label>
+					</div>
+					
+				</div>
+			</div>
+			<div class="mmesg-bot">
+				<button class="history-btn history-cancel">取消</button>
+				<button class="history-btn">確認</button>
+			</div>
+		</div>
+
+
 
 		<!-- 共用訊息提示 -->
-		<div class="mmesg-box">
+		<div class="mmesg-box" style="display: none;">
 			<div class="mmesg-tit">提示</div>
 			<div class="mmesg-cont">
 				<p>是否確定刪除?</p>
@@ -114,11 +166,11 @@
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
-							<button class="btn">下載</button>
+							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button>刪除</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -128,11 +180,11 @@
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
-							<button class="btn">下載</button>
+							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button>刪除</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -142,11 +194,11 @@
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
-							<button class="btn">下載</button>
+							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button>刪除</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -156,11 +208,11 @@
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
-							<button class="btn">下載</button>
+							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button>刪除</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -170,11 +222,11 @@
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
-							<button class="btn">下載</button>
+							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button>刪除</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 			</ul>
@@ -202,7 +254,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -213,7 +265,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">1115.2</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -224,7 +276,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -235,7 +287,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -246,7 +298,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">1115.2</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -257,7 +309,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -268,7 +320,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -279,7 +331,7 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">1115.2</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 				<li>
@@ -290,42 +342,42 @@
 					<div class="h-lan">119°46.866'E</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button>Del</button>
+						<button type="button" name="del"></button>
 					</div>
 				</li>
 
 			</ul>
 			<div class="h-list-bottom">
-				<button class="history-btn">下載</button>
-				<button class="history-btn">儲存</button>
+				<button class="history-btn h-btn-download">下載</button>
+				<button class="history-btn h-btn-save">儲存</button>
 			</div>
 		</div>
 
 		<div class="draw-color-box" id="drawColorPanel" style="display: none;">
 			<div class="symbo-tit">顏色</div>
 			<div class="symbo-item-group">
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color red on" style="background: #ED0000;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color orange" style="background: #F89B0C;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color yellow" style="background: #EFC816;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color green" style="background: #86CA32;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color blue" style="background: #308ED6;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color pink" style="background: #D430DA;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color purple" style="background: #8E16EF;"></div>
 				</div>
-				<div class="symbo-item" id="">
+				<div class="symbo-color-item" id="">
 					<div class="symbo-color lightblue" style="background: #16CBEF;"></div>
 				</div>
 			</div>
@@ -1406,7 +1458,7 @@
 			</div>
 		</div>
 		<!-- MTNet & AIS layout page -->
-		<div class="tit position-box" id="pageShipDetial" style="display:;">
+		<div class="tit position-box" id="pageShipDetial" style="display:none;">
 			<h2>
 				<span>JGJ AIS TEST SHIPJGJ</span> 詳細資訊
 				<div class="btn-unfold">
@@ -2934,7 +2986,7 @@
 				<a href="https://www.openstreetmap.org/#map=14/22.5698/120.3060">查看更大的地圖</a>
 			</small>
 		</div>
-		<div class="popup-ship-info ol-popup">
+		<div class="popup-ship-info ol-popup" style="display: none;">
 			<div id="popup-content">
 				<div class="ov-pop-box-tit">
 					<img src="flags/24/000.png">
@@ -3185,9 +3237,9 @@
 			});
 
 		});
-		setTimeout(function () {
-			$("#pageAlarmsEvents").show();
-		}, 6000)
+		// setTimeout(function () {
+		// 	$("#pageAlarmsEvents").show();
+		// }, 6000)
 		// setInterval(function () {
 		// 	$("#pageAlarmsEvents").show();
 		// }, 6000);
