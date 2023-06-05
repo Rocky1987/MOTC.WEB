@@ -26,9 +26,20 @@
 
 	<!-- openlayer Css -->
 	<link rel="stylesheet" href="TWn_D/css/map/ol.css">
+<style>
+	#mapView{
+		height: 100%;
+    background-color: rgb(201, 206, 206);
+	}
+</style>
 
+<!--<script src="https://unpkg.com/elm-pep"></script>-->
+<!-- The lines below are only needed for old environments like Internet Explorer and Android 4.x -->
+<!--<script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,TextDecoder"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/3.18.3/minified.js"></script>-->
 	<!-- openlayer Js -->
 	<script src="TWn_D/js/map/ol_6.15.0.js"></script>
+	<script src="TWn_D/js/map/proj4.js"></script>
 	<!--[if IE]>
 		<link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
 		<link href="/css/font-awesome-ie7.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -363,28 +374,28 @@
 		<div class="draw-color-box" id="drawColorPanel" style="display: none;">
 			<div class="symbo-tit">顏色</div>
 			<div class="symbo-item-group">
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color red on" style="background: #ED0000;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color orange" style="background: #F89B0C;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color yellow" style="background: #EFC816;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color green" style="background: #86CA32;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color blue" style="background: #308ED6;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color pink" style="background: #D430DA;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color purple" style="background: #8E16EF;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color lightblue" style="background: #16CBEF;"></div>
 				</div>
 			</div>
@@ -394,52 +405,52 @@
 			<div class="symbo-group">
 				<div class="symbo-tit">符號</div>
 				<div class="symbo-item-group">
-					<div class="symbo-item on" id="">
+					<div class="symbo-item" id="symbol-0-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-1-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-2-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-3-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-4-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-5-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-6-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-7-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_7.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-8-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_8.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-9-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_9.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-10-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_10.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-11-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-12-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_12.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-13-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_13.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-14-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_14.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-15-point">
 						<img src="Twn_D/img/draw_icon/draw_symbo_15.svg" alt="">
 					</div>
 				</div>
@@ -447,28 +458,28 @@
 			<div class="symbo-group">
 				<div class="symbo-tit">地標</div>
 				<div class="symbo-item-group">
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-0-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-1-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-2-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-3-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-4-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-5-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-6-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-7-point">
 						<img src="Twn_D/img/draw_icon/draw_mark_7.svg" alt="">
 					</div>
 				</div>
@@ -476,43 +487,43 @@
 			<div class="symbo-group">
 				<div class="symbo-item-group draw-ui-group">
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-0-point" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_0.svg" alt="">
 						</div>
 						<span>單點</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-1-line">
 							<img src="Twn_D/img/draw_icon/draw_ui_1.svg" alt="">
 						</div>
 						<span>直線</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-2-multiline">
 							<img src="Twn_D/img/draw_icon/draw_ui_2.svg" alt="">
 						</div>
 						<span>折線</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-3-square">
 							<img src="Twn_D/img/draw_icon/draw_ui_3.svg" alt="">
 						</div>
 						<span>方框</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-4-circle">
 							<img src="Twn_D/img/draw_icon/draw_ui_4.svg" alt="">
 						</div>
 						<span>圓形</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-5-triangle">
 							<img src="Twn_D/img/draw_icon/draw_ui_5.svg" alt="">
 						</div>
 						<span>三角</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-6-text">
 							<img src="Twn_D/img/draw_icon/draw_ui_6.svg" alt="">
 						</div>
 						<span>文字</span>
@@ -2985,9 +2996,10 @@
 			</div>
 		</div>
 		<div class="maps-box">
-			<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+			<!--<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
 				src="https://www.openstreetmap.org/export/embed.html?bbox=120.22789679467678%2C22.524345575802077%2C120.38402281701566%2C22.615332737518795&amp;layer=mapnik"
-				style="border: 1px solid black"></iframe>
+				style="border: 1px solid black"></iframe>-->
+				<div id="mapView"></div>
 			<br />
 			<small>
 				<a href="https://www.openstreetmap.org/#map=14/22.5698/120.3060">查看更大的地圖</a>
@@ -3288,8 +3300,9 @@
 	</script>
 	<!-- <script src="Twn_D/js/transformDMS.js"></script> -->
 	<script type="text/javascript" src="Twn_D/js/backend.js"></script>
-	<script type="text/javascript" src="Twn_D/js/map/mapMain.js"></script>
 	<script type="text/javascript" src="Twn_D/js/map/mapData.js"></script>
+	<script type="text/javascript" src="Twn_D/js/map/mapMain.js"></script>
+	
 </body>
 
 </html>

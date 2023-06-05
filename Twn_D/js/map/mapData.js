@@ -1,6 +1,6 @@
 const { createApp } = Vue
   
-createApp({
+let a = createApp({
   data() {
     return {
       message: 'Hello Vue!',
