@@ -259,23 +259,31 @@
 			<div class="h-list-tit">
 				<div class="h-tit-item">Item</div>
 				<div class="h-lat">Lat</div>
-				<div class="h-lan">Lng</div>
+				<div class="h-lan">lon</div>
 				<div class="h-km">km²</div>
 				<div class="h-del">Del</div>
 			</div>
 			<ul class="h-list">
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
+				<li v-if="drawSymbolArr.length == 0">
+					<div class="h-item"></div>
+					<div class="h-lat"></div>
+					<div class="h-lan"></div>
+					<div class="h-km"></div>
+					<div class="h-del">						
 					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
+				</li>
+				<li v-else-if="drawSymbolArr.length > 0" v-for="(item, index) in drawSymbolArr" :key="item.id">
+					<div class="h-item">
+						<img :src="'Twn_D/img/draw_icon/draw_' + item.Type + '_' + item.DetailType + '_' + item.Color + '.svg'"  alt="">
+					</div>
+					<div class="h-lat">{{item.lat.toFixed(2)}}</div>
+					<div class="h-lan">{{item.lon.toFixed(2)}}</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
 						<button type="button" name="del"></button>
 					</div>
 				</li>
-				<li>
+				<!--<li>
 					<div class="h-item">
 						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
 					</div>
@@ -362,7 +370,7 @@
 					<div class="h-del">
 						<button type="button" name="del"></button>
 					</div>
-				</li>
+				</li>-->
 
 			</ul>
 			<div class="h-list-bottom">
@@ -408,49 +416,49 @@
 					<div class="symbo-item" id="symbol-0-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-1-point">
+					<div class="symbo-item" id="symbol-1-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-2-point">
+					<div class="symbo-item" id="symbol-2-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-3-point">
+					<div class="symbo-item" id="symbol-3-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-4-point">
+					<div class="symbo-item" id="symbol-4-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-5-point">
+					<div class="symbo-item" id="symbol-5-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-6-point">
+					<div class="symbo-item" id="symbol-6-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-7-point">
+					<div class="symbo-item" id="symbol-7-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_7.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-8-point">
+					<div class="symbo-item" id="symbol-8-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_8.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-9-point">
+					<div class="symbo-item" id="symbol-9-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_9.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-10-point">
+					<div class="symbo-item" id="symbol-10-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_10.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-11-point">
+					<div class="symbo-item" id="symbol-11-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-12-point">
+					<div class="symbo-item" id="symbol-12-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_12.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-13-point">
+					<div class="symbo-item" id="symbol-13-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_13.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-14-point">
+					<div class="symbo-item" id="symbol-14-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_14.svg" alt="">
 					</div>
-					<div class="symbo-item" id="symbol-15-point">
+					<div class="symbo-item" id="symbol-15-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_15.svg" alt="">
 					</div>
 				</div>
@@ -458,28 +466,28 @@
 			<div class="symbo-group">
 				<div class="symbo-tit">地標</div>
 				<div class="symbo-item-group">
-					<div class="symbo-item" id="mark-0-point">
+					<div class="symbo-item" id="mark-0-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-1-point">
+					<div class="symbo-item" id="mark-1-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-2-point">
+					<div class="symbo-item" id="mark-2-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-3-point">
+					<div class="symbo-item" id="mark-3-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-4-point">
+					<div class="symbo-item" id="mark-4-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-5-point">
+					<div class="symbo-item" id="mark-5-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-6-point">
+					<div class="symbo-item" id="mark-6-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="mark-7-point">
+					<div class="symbo-item" id="mark-7-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_7.svg" alt="">
 					</div>
 				</div>
