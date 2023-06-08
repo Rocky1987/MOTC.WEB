@@ -64,10 +64,11 @@ mapMain = {
             //取得畫的顏色
             //debugger;
             let colorType = "#ED0000";
+            let color = "red";
             for(let i=0; i < document.getElementsByClassName('symbo-color').length; i++){
                 if(document.getElementsByClassName('symbo-color')[i].classList[2] === "on"){
                  //console.log(document.getElementsByClassName('symbo-color')[i].classList[1]);
-                    const color = document.getElementsByClassName('symbo-color')[i].classList[1]
+                     color = document.getElementsByClassName('symbo-color')[i].classList[1]
                      
                     if(color === "red"){
                         colorType = "#ED0000";
@@ -151,12 +152,19 @@ mapMain = {
 
               // 添加繪製完成事件監聽器
             mapMain.data.draw.on('drawend', function(event) {
-                var feature = event.feature; // 繪製的要素
-                //console.log(event.feature);
+                var feature = event.feature; // 繪製的要素                   
+               
+                //console.log(coordinates4326); // [lon, lat]
+                //console.log(feature.getGeometry());
+                const id = Math.random().toString(36).substring(2, 9);
+                //console.log(id);
+                feature.setId(id);
+
                 // 獲取要素的座標
                 var coordinates = feature.getGeometry().getCoordinates();
                 //console.log('繪製的座標:', coordinates);
-                //console.log(feature.getGeometry());
+                 // 執行坐標轉換
+                 const coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0], coordinates[1]]);
 
                   // 在此处设置要素的样式
                   let style = null;
@@ -182,18 +190,29 @@ mapMain = {
                     });
                   }
                   else if(symbolInfoArr[0] === "symbol" || symbolInfoArr[0] === "mark"){
+                   
+                    let imageLink = "draw_" + symbolInfoArr[0].replace("l","") + "_" + symbolInfoArr[1] + "_" + color+ ".svg";
                       style = new ol.style.Style({
                         image: new ol.style.Icon({
                           anchor: [0.5, 20],
                           anchorXUnits: 'fraction',
                           anchorYUnits: 'pixels',
-                          src: 'Twn_D/img/draw_icon/draw_mark_0_yellow.svg',
+                          src: "Twn_D/img/draw_icon/" + imageLink,
                         }),
                       });
                   }
                 }
 
-                feature.setStyle(style);              
+                feature.setStyle(style); 
+                //addApp.addDrawSymbolArr(id,coordinates4326[0],coordinates4326[1],symbolInfoArr[0],symbolInfoArr[1],color);  
+                addApp.drawSymbolArr.push({
+                    id:id,
+                    lon:coordinates4326[0],
+                    lat:coordinates4326[1],
+                    Type:symbolInfoArr[0].replace("l",""),
+                    DetailType:symbolInfoArr[1],
+                    Color:color
+                });        
             });
   
 
@@ -202,7 +221,7 @@ mapMain = {
               //snap = new Snap({source: source});
               //map.addInteraction(snap);
               mapConfig.snap = new ol.interaction.Snap({source: mapConfig.source});
-              //mapConfig.entity.olMap.addInteraction(mapConfig.snap);
+              //mapConfig.entity.olMap.addInteraction(mapConfig.snap);           
         },
         starDraw:function(thisObj){
             drawInfo.chooseObj = thisObj;
