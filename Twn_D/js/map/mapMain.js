@@ -56,7 +56,7 @@ mapMain = {
             });
 
             const modify = new ol.interaction.Modify({source: mapConfig.source});
-            mapConfig.entity.olMap.addInteraction(modify);
+            //mapConfig.entity.olMap.addInteraction(modify);
         },
         addInteractions:function(){
             //取得畫的類別
@@ -152,34 +152,56 @@ mapMain = {
 
               // 添加繪製完成事件監聽器
             mapMain.data.draw.on('drawend', function(event) {
-                var feature = event.feature; // 繪製的要素                   
-               
-                //console.log(coordinates4326); // [lon, lat]
-                //console.log(feature.getGeometry());
-                const id = Math.random().toString(36).substring(2, 9);
+                var feature = event.feature; // 繪製的要素                                             
+                //console.log(feature.getGeometry());               
+                // 獲取要素的座標
+                let coordinates = null;
+                let geoInfo = {
+                    center:null,
+                    radius: null,
+                }
+
+                if(type === "Circle"){
+                    const circleGeometry = feature.getGeometry();
+                    // 獲取圓心座標
+                    geoInfo.center = circleGeometry.getCenter();                   
+                    //console.log(center);
+                    // 獲取半徑
+                    geoInfo.radius = circleGeometry.getRadius();
+                    //console.log(radius);
+                }else{
+                    coordinates = feature.getGeometry().getCoordinates();
+                    //console.log('繪製的座標:', coordinates);
+                }               
+                //console.log(feature); // [lon, lat]
+                if(symbolInfoArr[2] === "line" && coordinates.length !== 2){
+                    alert("所畫直線僅能為2個點");
+                    return;
+                }
+                
+                //console.log('繪製的座標:', coordinates);
+                //console.log(type);
+                 // 執行坐標轉換
+                 const id = Math.random().toString(36).substring(2, 9);
                 //console.log(id);
                 feature.setId(id);
 
-                // 獲取要素的座標
-                var coordinates = feature.getGeometry().getCoordinates();
-                //console.log('繪製的座標:', coordinates);
-                 // 執行坐標轉換
-                 const coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0], coordinates[1]]);
+                 let coordinates4326 = null;
 
+            if(type === "Point"){
+                  coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0], coordinates[1]]);
+            }else if(type === "LineString"){
+                coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][0], coordinates[0][1]]);
+            }else if(type === "Circle"){
+                coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [geoInfo.center[0], geoInfo.center[1]]);
+            }
+                 //console.log('繪製的座標:', coordinates4326);
                   // 在此处设置要素的样式
                   let style = null;
                   //console.log(symbolInfoArr[0]);
                 if(type === "Point"){
                     if(symbolInfoArr[0] === "ui"){
-                    style = new ol.style.Style({
-                        // 设置样式的具体属性，例如填充颜色、边界颜色、边界宽度等
-                        fill: new ol.style.Fill({
-                            color: 'rgba(255, 0, 0, 0.5)' // 填充颜色为半透明红色
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'rgba(0, 0, 0, 1)', // 边界颜色为红色
-                            width: 2 // 边界宽度为2个像素
-                        }),
+                    style = new ol.style.Style({                       
                         image: new ol.style.Circle ({
                             radius: 7,
                             fill: new ol.style.Fill({
@@ -201,6 +223,22 @@ mapMain = {
                         }),
                       });
                   }
+                }else if(type === "LineString"){
+                    style = new ol.style.Style({                       
+                        stroke: new ol.style.Stroke({
+                            color: colorType, // 边界颜色为红色
+                            width: 2 // 边界宽度为2个像素
+                        }),                    
+                    });
+                }else if(type === "Circle"){
+                    style = new ol.style.Style({  
+                       
+                            stroke: new ol.style.Stroke({
+                                color: colorType, // 边界颜色为红色
+                                width: 2 // 边界宽度为2个像素
+                            }),                      
+                                         
+                    });
                 }
 
                 feature.setStyle(style); 
@@ -215,9 +253,7 @@ mapMain = {
                 });        
             });
   
-
-              mapConfig.entity.olMap.addInteraction(mapMain.data.draw);
-              
+              mapConfig.entity.olMap.addInteraction(mapMain.data.draw);              
               //snap = new Snap({source: source});
               //map.addInteraction(snap);
               mapConfig.snap = new ol.interaction.Snap({source: mapConfig.source});

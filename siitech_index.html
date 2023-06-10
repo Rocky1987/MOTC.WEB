@@ -106,7 +106,7 @@
 			</div>
 			<div class="mmesg-bot">
 				<button class="history-btn history-cancel">取消</button>
-				<button class="history-btn">確認</button>
+				<button class="history-btn" onclick="addApp.addDrawResults();">確認</button>
 			</div>
 		</div>
 
@@ -280,7 +280,7 @@
 					<div class="h-lan">{{item.lon.toFixed(2)}}</div>
 					<div class="h-km">-</div>
 					<div class="h-del">
-						<button type="button" name="del"></button>
+						<button type="button" name="del" @Click="removeDrawSymbolArrItem(index, item.id)"></button>
 					</div>
 				</li>
 				<!--<li>
@@ -501,13 +501,13 @@
 						<span>單點</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="ui-1-line">
+						<div class="symbo-item" id="ui-1-line" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_1.svg" alt="">
 						</div>
 						<span>直線</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="ui-2-multiline">
+						<div class="symbo-item" id="ui-2-multiline" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_2.svg" alt="">
 						</div>
 						<span>折線</span>
@@ -519,7 +519,7 @@
 						<span>方框</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="ui-4-circle">
+						<div class="symbo-item" id="ui-4-circle" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_4.svg" alt="">
 						</div>
 						<span>圓形</span>

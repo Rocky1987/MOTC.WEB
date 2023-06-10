@@ -19,6 +19,16 @@ let addApp = createApp({
         Color:color
       });
       console.log(addDrawSymbolArr);
+    },
+    removeDrawSymbolArrItem:function(index, featureId){
+      alert("確定移除本項目??");
+      //console.log(index);
+      this.drawSymbolArr.splice(index, 1);
+      const featureById = mapConfig.vector.getSource().getFeatureById(featureId);
+      mapConfig.source.removeFeature(featureById);    
+    },
+    addDrawResults:function(){
+      alert("ok");
     }
   }
 }).mount('#historyListBox')
