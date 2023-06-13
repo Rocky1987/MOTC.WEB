@@ -8,6 +8,7 @@ let mapConfig = {
 
 let drawInfo = {
     chooseObj : null,
+    text:"無內容"
 };
 
 mapMain = {
@@ -106,11 +107,17 @@ mapMain = {
                 case "multiline":
                     type = "LineString"
                     break;
+                case "triangle":
+                    type = "Polygon"
+                    break;
                 case "square":
                     type = "Polygon"
                     break;
                 case "circle":
                     type = "Circle"
+                    break;
+                case "text":
+                    type = "Point"
                     break;
             }
        
@@ -139,13 +146,30 @@ mapMain = {
                 
                 return [style]; // 返回样式数组
               };*/
-
+              console.log(symbolInfoArr[0]);
+                  console.log(symbolInfoArr[2]);
+                  console.log(type);
+              //type = "Circle";
             mapMain.data.draw = new ol.interaction.Draw({
                 source: mapConfig.source,
-                type: type,
-                //style: drawStyle // 应用自定义样式函数
+                type: type,              
               });
+              if(symbolInfoArr[2] === "square" && type === "Polygon"){
+                    mapMain.data.draw = new ol.interaction.Draw({
+                    source: mapConfig.source,
+                    type: "Circle",
+                    //style: drawStyle // 应用自定义样式函数
+                    geometryFunction:ol.interaction.Draw.createBox()
+                  });
+              }else if(symbolInfoArr[2] === "triangle" && type === "Polygon"){
+                    mapMain.data.draw = new ol.interaction.Draw({
+                    source: mapConfig.source,
+                    type: type,
+                    maxPoints: 3,                
+                  });
+              }
 
+              //mapMain.data.draw.geometryFunction = ol.interaction.Draw.createBox();
               //let features = mapConfig.vector.getSource().getFeatures();
 
               //console.log(features);
@@ -171,7 +195,7 @@ mapMain = {
                     //console.log(radius);
                 }else{
                     coordinates = feature.getGeometry().getCoordinates();
-                    //console.log('繪製的座標:', coordinates);
+                    console.log('繪製的座標:', coordinates);
                 }               
                 //console.log(feature); // [lon, lat]
                 if(symbolInfoArr[2] === "line" && coordinates.length !== 2){
@@ -191,25 +215,52 @@ mapMain = {
             if(type === "Point"){
                   coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0], coordinates[1]]);
             }else if(type === "LineString"){
+                //console.log(type);
                 coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][0], coordinates[0][1]]);
+                //console.log(coordinates4326);
             }else if(type === "Circle"){
                 coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [geoInfo.center[0], geoInfo.center[1]]);
             }
+            else if(type === "Polygon"){
+                coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][0][0], coordinates[0][0][1]]);
+            }
                  //console.log('繪製的座標:', coordinates4326);
                   // 在此处设置要素的样式
-                  let style = null;
-                  //console.log(symbolInfoArr[0]);
+                  let style = null;               
                 if(type === "Point"){
                     if(symbolInfoArr[0] === "ui"){
-                    style = new ol.style.Style({                       
-                        image: new ol.style.Circle ({
-                            radius: 7,
-                            fill: new ol.style.Fill({
-                                color: colorType,   //決定要畫的顏色
-                            }),
-                        }),
-                        // 更多样式属性...
-                    });
+                        if(symbolInfoArr[2] === "text"){
+                            style = new ol.style.Style({                       
+                                image: new ol.style.Circle ({
+                                    radius: 7,
+                                    fill: new ol.style.Fill({
+                                        color: colorType,   //決定要畫的顏色
+                                    }),
+                                }),
+                                text: new ol.style.Text({
+                                    text: drawInfo.text,
+                                    font: '12px Calibri,sans-serif',
+                                    fill: new ol.style.Fill({
+                                      color: '#000',
+                                    }),
+                                    stroke: new ol.style.Stroke({
+                                      color: '#fff',
+                                      width: 3,
+                                    }),
+                                }),
+                                // 更多样式属性...
+                            });
+                        }else{
+                            style = new ol.style.Style({                       
+                                image: new ol.style.Circle ({
+                                    radius: 7,
+                                    fill: new ol.style.Fill({
+                                        color: colorType,   //決定要畫的顏色
+                                    }),
+                                }),
+                                // 更多样式属性...
+                            });
+                        }                   
                   }
                   else if(symbolInfoArr[0] === "symbol" || symbolInfoArr[0] === "mark"){
                    
@@ -223,14 +274,15 @@ mapMain = {
                         }),
                       });
                   }
-                }else if(type === "LineString"){
+                }else if(type === "LineString" || type === "Circle" || type==="Polygon"){
                     style = new ol.style.Style({                       
                         stroke: new ol.style.Stroke({
                             color: colorType, // 边界颜色为红色
                             width: 2 // 边界宽度为2个像素
                         }),                    
                     });
-                }else if(type === "Circle"){
+                }
+                /*else if(type === "Circle" ){
                     style = new ol.style.Style({  
                        
                             stroke: new ol.style.Stroke({
@@ -239,7 +291,7 @@ mapMain = {
                             }),                      
                                          
                     });
-                }
+                }*/
 
                 feature.setStyle(style); 
                 //addApp.addDrawSymbolArr(id,coordinates4326[0],coordinates4326[1],symbolInfoArr[0],symbolInfoArr[1],color);  
@@ -268,6 +320,28 @@ mapMain = {
         },
         cancel:function(){
             mapConfig.entity.olMap.removeInteraction(mapMain.data.draw);
+        },
+        askUserBox:function(thisObj){
+            let userInput = prompt("請輸入你的名字", "");
+
+            if(userInput === null){
+                return;
+            }
+
+            if(userInput === ""){
+                alert("請輸入圖徵的文字!");
+                return;
+            }
+            
+            if(userInput.length > 20){
+                alert("圖徵文字長度不可超過20個字!");
+            }
+
+            drawInfo.text = userInput;
+
+            mapMain.methods.starDraw(thisObj);
+            //console.log(userInput);
+
         }
     }
 }
