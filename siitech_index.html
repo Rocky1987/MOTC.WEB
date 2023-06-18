@@ -15,8 +15,7 @@
 	<script type="text/javascript" src="Twn_D/js/datepicker.min.js"></script>
 	<script src="Twn_D/js/i18n/datepicker.en.js"></script>
 	<script src="Twn_D/js/vue/vue.global.prod.min.js"></script>
-
-
+	<script src="Twn_D/js/map/axios.min.js"></script>
 
 
 	<!-- 日期選擇樣式 -->
@@ -101,7 +100,7 @@
 			<div class="mmesg-cont">
 				<p>標題</p>
 				<div class="mmesg-txt">
-					<input type="text" placeholder="請輸入標題" class="input-sty">
+					<input type="text" placeholder="請輸入標題" class="input-sty" id="addTitleTxt">
 				</div>
 			</div>
 			<div class="mmesg-bot">
@@ -174,8 +173,7 @@
 				<div class="no-box">#</div>
 				<div class="doc-tit">標題</div>
 				<div class="doc-del">刪除</div>
-			</div>
-			<div>{{account}}</div>
+			</div>			
 			<ul class="draw-list">
 				<li>
 					<div class="no-box">5</div>
@@ -254,7 +252,7 @@
 		<div class="draw-list-box" id="historyListBox" style="display: none;">
 			<div class="doc-tit-box">
 				<span>繪圖步驟紀錄</span>
-				<button class="history-btn" id="closeHistoryListBox">退出繪圖</button>
+				<button class="history-btn" id="closeHistoryListBox" onclick="mapMain.methods.cancelAndClearSymbol();">退出繪圖</button>
 			</div>
 			<div class="h-list-tit">
 				<div class="h-tit-item">Item</div>
@@ -274,104 +272,16 @@
 				</li>
 				<li v-else-if="drawSymbolArr.length > 0" v-for="(item, index) in drawSymbolArr" :key="item.id">
 					<div class="h-item">
-						<img :src="'Twn_D/img/draw_icon/draw_' + item.Type + '_' + item.DetailType + '_' + item.Color + '.svg'"  alt="">
+						<img :src="'Twn_D/img/draw_icon/draw_' + item.DrawType + '_' + item.DetailType + '_' + item.Color + '.svg'"  alt="">
 					</div>
-					<div class="h-lat">{{item.lat.toFixed(2)}}</div>
-					<div class="h-lan">{{item.lon.toFixed(2)}}</div>
-					<div class="h-km">-</div>
+					<div class="h-lat">{{item.Lat.toFixed(2)}}</div>
+					<div class="h-lan">{{item.Lon.toFixed(2)}}</div>
+					<div class="h-km" v-if="item.Area === null">-</div>
+					<div class="h-km" v-else>{{item.Area}}</div>
 					<div class="h-del">
 						<button type="button" name="del" @Click="removeDrawSymbolArrItem(index, item.id)"></button>
 					</div>
-				</li>
-				<!--<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>-->
-
+				</li>			
 			</ul>
 			<div class="h-list-bottom">
 				<button class="history-btn h-btn-download">下載</button>
