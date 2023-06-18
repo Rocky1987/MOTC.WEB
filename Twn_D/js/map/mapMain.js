@@ -146,9 +146,9 @@ mapMain = {
                 
                 return [style]; // 返回样式数组
               };*/
-              console.log(symbolInfoArr[0]);
-                  console.log(symbolInfoArr[2]);
-                  console.log(type);
+              //console.log(symbolInfoArr[0]);
+                  //console.log(symbolInfoArr[2]);
+                  //console.log(type);
               //type = "Circle";
             mapMain.data.draw = new ol.interaction.Draw({
                 source: mapConfig.source,
@@ -177,12 +177,24 @@ mapMain = {
               // 添加繪製完成事件監聽器
             mapMain.data.draw.on('drawend', function(event) {
                 var feature = event.feature; // 繪製的要素                                             
-                //console.log(feature.getGeometry());               
+                let geometry = feature.getGeometry();      
                 // 獲取要素的座標
                 let coordinates = null;
+                //紀錄圓形圖徵的圓心跟半徑
                 let geoInfo = {
                     center:null,
-                    radius: null,
+                    radius: 0,
+                }
+                //圖徵如為多邊形計算其面積
+                let area = 0;
+
+                //紀錄座標資訊(多點以上才有)
+                let coordsStr = "";
+
+                if(geometry instanceof ol.geom.Polygon){
+                    //console.log(feature.getGeometry().getArea());
+                    let areaInSquareMeters = ol.sphere.getArea(geometry, {projection: 'EPSG:3857'});   
+                    area = (areaInSquareMeters/1000000).toFixed(2);
                 }
 
                 if(type === "Circle"){
@@ -191,10 +203,13 @@ mapMain = {
                     geoInfo.center = circleGeometry.getCenter();                   
                     //console.log(center);
                     // 獲取半徑
-                    geoInfo.radius = circleGeometry.getRadius();
+                    geoInfo.radius = circleGeometry.getRadius().toFixed(4);
                     //console.log(radius);
+                    let areaInSquareMeters = Math.PI * Math.pow(geoInfo.radius, 2);
+                    area = (areaInSquareMeters/1000000).toFixed(2);
+
                 }else{
-                    coordinates = feature.getGeometry().getCoordinates();
+                    coordinates = feature.getGeometry().getCoordinates();   
                     console.log('繪製的座標:', coordinates);
                 }               
                 //console.log(feature); // [lon, lat]
@@ -214,15 +229,36 @@ mapMain = {
 
             if(type === "Point"){
                   coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0], coordinates[1]]);
+                  //console.log()
             }else if(type === "LineString"){
                 //console.log(type);
                 coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][0], coordinates[0][1]]);
+                coordsStr += "(";
+                for(let i=0; i < coordinates.length; i++){
+                    let point4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[i][0], coordinates[i][1]]);
+                    coordsStr += point4326[0].toFixed(4).toString() + " " + point4326[1].toFixed(4).toString();
+                    if( i !== coordinates.length - 1){
+                        coordsStr += ",";
+                    }
+                }
+                coordsStr += ")";
                 //console.log(coordinates4326);
             }else if(type === "Circle"){
                 coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [geoInfo.center[0], geoInfo.center[1]]);
             }
             else if(type === "Polygon"){
                 coordinates4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][0][0], coordinates[0][0][1]]);
+                //console.log(coordinates);
+                coordsStr += "(";
+                
+                for(let i=0; i < coordinates[0].length; i++){
+                    let point4326 = proj4('EPSG:3857', 'EPSG:4326', [coordinates[0][i][0], coordinates[0][i][1]]);
+                    coordsStr += point4326[0].toFixed(4).toString() + " " + point4326[1].toFixed(4).toString();
+                    if( i !== coordinates[0].length - 1){
+                        coordsStr += ",";
+                    }
+                }
+                coordsStr += ")";
             }
                  //console.log('繪製的座標:', coordinates4326);
                   // 在此处设置要素的样式
@@ -297,11 +333,15 @@ mapMain = {
                 //addApp.addDrawSymbolArr(id,coordinates4326[0],coordinates4326[1],symbolInfoArr[0],symbolInfoArr[1],color);  
                 addApp.drawSymbolArr.push({
                     id:id,
-                    lon:coordinates4326[0],
-                    lat:coordinates4326[1],
-                    Type:symbolInfoArr[0].replace("l",""),
+                    Lon:coordinates4326[0],
+                    Lat:coordinates4326[1],
+                    SymbolType:type,
+                    DrawType:symbolInfoArr[0].replace("l",""),
                     DetailType:symbolInfoArr[1],
-                    Color:color
+                    Color:color,
+                    Area:area,
+                    Coordinates : coordsStr !== "" ? coordsStr : null,
+                    Radius:geoInfo.radius === 0 ? 0 : geoInfo.radius
                 });        
             });
   
@@ -320,6 +360,11 @@ mapMain = {
         },
         cancel:function(){
             mapConfig.entity.olMap.removeInteraction(mapMain.data.draw);
+        },
+        cancelAndClearSymbol:function(){
+            mapConfig.entity.olMap.removeInteraction(mapMain.data.draw);
+            addApp.drawSymbolArr = [];
+            mapConfig.vector.getSource().clear();
         },
         askUserBox:function(thisObj){
             let userInput = prompt("請輸入你的名字", "");
