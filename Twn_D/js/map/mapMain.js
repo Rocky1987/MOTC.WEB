@@ -331,6 +331,8 @@ mapMain = {
 
                 feature.setStyle(style); 
                 //addApp.addDrawSymbolArr(id,coordinates4326[0],coordinates4326[1],symbolInfoArr[0],symbolInfoArr[1],color);  
+                //console.log(symbolInfoArr[0]);
+                //console.log(symbolInfoArr[1]);
                 addApp.drawSymbolArr.push({
                     id:id,
                     Lon:coordinates4326[0],

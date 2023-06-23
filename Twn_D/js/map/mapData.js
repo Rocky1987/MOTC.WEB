@@ -4,7 +4,8 @@ const config = {
   domainName:"http://localhost:52579/",
   projectName : "MOTC",
   url:{
-    AddDrawResults : "api/MOTC/AddDrawResults"
+    AddDrawResults : "api/MOTC/AddDrawResults",
+    getDrawResults : "api/MOTC/GetDrawResults",
   }
 };
 
@@ -58,7 +59,7 @@ let addApp = createApp({
       let tempDataArr = [];
 
       //for(let i = 0; i < this.drawSymbolArr )
-
+      console.log(addTitleTxt);
       const data = {
         DrawRecord:{
           Title:addTitleTxt,
@@ -66,6 +67,8 @@ let addApp = createApp({
         },
         DrawDetailRecordList : this.drawSymbolArr
       }
+
+      console.log(data);
 
       axios.post(
         config.domainName + config.url.AddDrawResults, 
@@ -82,10 +85,46 @@ let addApp = createApp({
             console.log(response.ErrorMessage);
             alert("儲存失敗");
           }
-        });
-      
-     
-        
+        });            
     }
   }
 }).mount('#historyListBox');
+
+let oldApp = createApp({
+  data(){
+    return{
+      message : "qq",
+      drawItemArr:[]
+    }
+  },
+  methods:{
+    getdrawHistoryRecord: function(){
+      let self = this;
+
+      let data = {
+        CreateAcc :document.getElementById("user-id").innerHTML
+      };
+      axios.post(
+        config.domainName + config.url.getDrawResults, 
+        //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
+        data
+        ).then(function (response) {
+          console.log(response);
+          let results = response.data;
+          if(results.Status === 1){        
+            if(results.Data !== null){
+              self.drawItemArr = results.Data;
+              console.log(self.drawItemArr);
+            }else{
+              self.drawItemArr = [];
+            }
+          alert("儲存成功");
+          }else{
+            console.log(response.ErrorMessage);
+            alert("系統錯誤!");
+          }
+        });  
+
+    }
+  }
+}).mount('#fileListBox');
