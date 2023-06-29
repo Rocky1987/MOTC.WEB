@@ -99,6 +99,7 @@ let oldApp = createApp({
   },
   methods:{
     getdrawHistoryRecord: function(){
+
       let self = this;
 
       let data = {
@@ -109,7 +110,7 @@ let oldApp = createApp({
         //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
         data
         ).then(function (response) {
-          console.log(response);
+          //console.log(response);
           let results = response.data;
           if(results.Status === 1){        
             if(results.Data !== null){
@@ -118,13 +119,12 @@ let oldApp = createApp({
             }else{
               self.drawItemArr = [];
             }
-          alert("儲存成功");
+          //alert("儲存成功");
           }else{
             console.log(response.ErrorMessage);
             alert("系統錯誤!");
           }
         });  
-
-    }
+    },
   }
-}).mount('#fileListBox');
+}).mount('#fileListBoxApp');
