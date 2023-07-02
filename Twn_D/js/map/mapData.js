@@ -126,5 +126,22 @@ let oldApp = createApp({
           }
         });  
     },
+    transDate:function(date){
+      console.log(date);
+      let dateStr = new Date(date);
+
+      let year = dateStr.getFullYear(); // 获取年份
+      let month = dateStr.getMonth() + 1; // 获取月份，注意月份是从0开始计算的，所以我们需要加1
+      let day = dateStr.getDate(); // 获取日
+      let hours = dateStr.getHours(); // 获取小时
+      let minutes = dateStr.getMinutes(); // 获取分钟
+      let seconds = dateStr.getSeconds(); // 获取秒
+      //let milliseconds = dateStr.getMilliseconds(); // 获取毫
+
+      let dateFullStr = year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();  
+      //console.log(a);
+      return dateFullStr;
+      //return year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
+    }
   }
 }).mount('#fileListBoxApp');

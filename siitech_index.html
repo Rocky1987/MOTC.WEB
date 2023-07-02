@@ -181,7 +181,7 @@
 					<div class="no-box">{{index + 1}}</div>
 					<div class="doc-li-box">
 						<div class="doc-li-tit">{{item.Title}}</div>
-						<p>{{item.CreatTime}}</p><p>{{ new Date(item.CreatTime) }}</p>
+						<p>{{ transDate(item.CreatTime) }}</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
 							<button class="btn h-btn-download">下載</button>
