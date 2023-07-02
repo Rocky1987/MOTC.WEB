@@ -91,7 +91,7 @@
 		<!-- 選擇歷史繪圖或是新增 -->
 		<div class="draw-sel-box" id="drawPanel" style="display: none;">
 			<button class="history-btn btn-submit" id="openNewDraw">新增繪圖</button>
-			<button class="history-btn btn-green" id="openOldDraw">開啟歷史繪圖</button>
+			<button class="history-btn btn-green" id="openOldDraw" onclick="oldApp.getdrawHistoryRecord()">開啟歷史繪圖</button>
 		</div>
 
 		<!-- 儲存提示 -->
@@ -163,7 +163,8 @@
 		</div>
 		
 		<!-- 開啟歷史繪圖清單 -->
-		<div class="draw-list-box" id="fileListBox" style="display: none;">			
+		<div id="fileListBoxApp">
+		<div class="draw-list-box" id="fileListBox" style="display: none;">					
 			<div class="doc-tit-box">
 				<span>歷史繪圖清單</span>
 				<!-- <div class="box-close">關閉</div> -->
@@ -173,11 +174,26 @@
 				<div class="no-box">#</div>
 				<div class="doc-tit">標題</div>
 				<div class="doc-del">刪除</div>
-			</div>						
-			<ul class="draw-list">
-				<li>
-					<div class="no-box">5</div>
+			</div>	
+								
+			<ul class="draw-list">				
+				<li v-if="drawItemArr.length > 0" v-for="(item, index) in drawItemArr">
+					<div class="no-box">{{index + 1}}</div>
 					<div class="doc-li-box">
+						<div class="doc-li-tit">{{item.Title}}</div>
+						<p>{{ transDate(item.CreatTime) }}</p>
+						<div class="doc-edit-box">
+							<button class="btn">編輯</button>
+							<button class="btn h-btn-download">下載</button>
+						</div>
+					</div>
+					<div class="doc-del">
+						<button type="button" name="del"></button>
+					</div>
+				</li>	
+				<li v-else>
+					<div class="no-box">無資料</div>
+					<!--<div class="doc-li-box">
 						<div class="doc-li-tit">{{message}}</div>
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
@@ -187,66 +203,11 @@
 					</div>
 					<div class="doc-del">
 						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">4</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">3</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">2</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">1</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-			</ul>
+					</div>-->
+				</li>			
+			</ul>		 	
 		</div>
+	</div>
 
 		<!-- 步驟記錄 -->
 		<div class="draw-list-box" id="historyListBox" style="display: none;">

@@ -99,6 +99,7 @@ let oldApp = createApp({
   },
   methods:{
     getdrawHistoryRecord: function(){
+
       let self = this;
 
       let data = {
@@ -109,7 +110,7 @@ let oldApp = createApp({
         //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
         data
         ).then(function (response) {
-          console.log(response);
+          //console.log(response);
           let results = response.data;
           if(results.Status === 1){        
             if(results.Data !== null){
@@ -118,13 +119,29 @@ let oldApp = createApp({
             }else{
               self.drawItemArr = [];
             }
-          alert("儲存成功");
+          //alert("儲存成功");
           }else{
             console.log(response.ErrorMessage);
             alert("系統錯誤!");
           }
         });  
+    },
+    transDate:function(date){
+      console.log(date);
+      let dateStr = new Date(date);
 
+      let year = dateStr.getFullYear(); // 获取年份
+      let month = dateStr.getMonth() + 1; // 获取月份，注意月份是从0开始计算的，所以我们需要加1
+      let day = dateStr.getDate(); // 获取日
+      let hours = dateStr.getHours(); // 获取小时
+      let minutes = dateStr.getMinutes(); // 获取分钟
+      let seconds = dateStr.getSeconds(); // 获取秒
+      //let milliseconds = dateStr.getMilliseconds(); // 获取毫
+
+      let dateFullStr = year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();  
+      //console.log(a);
+      return dateFullStr;
+      //return year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
     }
   }
-}).mount('#fileListBox');
+}).mount('#fileListBoxApp');
