@@ -6,6 +6,7 @@ const config = {
   url:{
     AddDrawResults : "api/MOTC/AddDrawResults",
     getDrawResults : "api/MOTC/GetDrawResults",
+    DeleteDrawRecordData : "api/MOTC/DeleteDrawRecordData",
   }
 };
 
@@ -101,6 +102,7 @@ let oldApp = createApp({
     getdrawHistoryRecord: function(){
 
       let self = this;
+      self.drawItemArr = [];
 
       let data = {
         CreateAcc :document.getElementById("user-id").innerHTML
@@ -142,6 +144,38 @@ let oldApp = createApp({
       //console.log(a);
       return dateFullStr;
       //return year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
-    }
+    },
+    deleteDrawData:function(indexNo){
+
+      let isDelete = confirm("確認刪除本筆資料??"); 
+
+      if(isDelete){
+
+        let self = this;
+
+        let data = {
+          IndexNo : indexNo,
+          CreateAcc :document.getElementById("user-id").innerHTML
+        };
+      axios.post(
+        config.domainName + config.url.DeleteDrawRecordData, 
+        //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
+        data
+        ).then(function (response){
+          
+          let results = response.data;
+          console.log(results);
+          if(results.Status === 1){                 
+              self.drawItemArr = (results.Data === null || results.Data.length === 0) ? [] : results.Data;
+              //console.log(self.drawItemArr);
+              alert("刪除成功!~~");           
+          //alert("儲存成功");
+          }else{
+            self.drawItemArr = results.Data;
+            alert("刪除失敗!~~");
+          }
+        });
+      }
+    },
   }
 }).mount('#fileListBoxApp');
