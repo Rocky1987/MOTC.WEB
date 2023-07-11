@@ -115,8 +115,8 @@ $(window).on('load', function () {
 	$('#openOldDraw').on('click',function(){
 		$('#fileListBox').show();
 		$('#historyListBox').hide();
-		$('#drawColorPanel').show();
-		$('#drawSymboPanel').show();
+		//$('#drawColorPanel').show();
+		//$('#drawSymboPanel').show();
 	})
 	$('#closeHistoryListBox').on('click',function(){
 		$('#historyListBox').hide();

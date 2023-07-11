@@ -15,13 +15,30 @@
 	<script type="text/javascript" src="Twn_D/js/datepicker.min.js"></script>
 	<script src="Twn_D/js/i18n/datepicker.en.js"></script>
 	<script src="Twn_D/js/vue/vue.global.prod.min.js"></script>
-
+	<script src="Twn_D/js/map/axios.min.js"></script>
 
 
 	<!-- 日期選擇樣式 -->
 	<link rel="stylesheet" href="Twn_D/css/datepicker.min.css">
 	<link rel="stylesheet" href="Twn_D/css/all.min.css">
 	<link rel="stylesheet" href="Twn_D/css/siitech_sty.css">
+
+	<!-- openlayer Css -->
+	<link rel="stylesheet" href="TWn_D/css/map/ol.css">
+<style>
+	#mapView{
+		height: 100%;
+    background-color: rgb(201, 206, 206);
+	}
+</style>
+
+<!--<script src="https://unpkg.com/elm-pep"></script>-->
+<!-- The lines below are only needed for old environments like Internet Explorer and Android 4.x -->
+<!--<script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,TextDecoder"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/3.18.3/minified.js"></script>-->
+	<!-- openlayer Js -->
+	<script src="TWn_D/js/map/ol_6.15.0.js"></script>
+	<script src="TWn_D/js/map/proj4.js"></script>
 	<!--[if IE]>
 		<link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
 		<link href="/css/font-awesome-ie7.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -74,7 +91,7 @@
 		<!-- 選擇歷史繪圖或是新增 -->
 		<div class="draw-sel-box" id="drawPanel" style="display: none;">
 			<button class="history-btn btn-submit" id="openNewDraw">新增繪圖</button>
-			<button class="history-btn btn-green" id="openOldDraw">開啟歷史繪圖</button>
+			<button class="history-btn btn-green" id="openOldDraw" onclick="oldApp.getdrawHistoryRecord()">開啟歷史繪圖</button>
 		</div>
 
 		<!-- 儲存提示 -->
@@ -83,12 +100,12 @@
 			<div class="mmesg-cont">
 				<p>標題</p>
 				<div class="mmesg-txt">
-					<input type="text" placeholder="請輸入標題" class="input-sty">
+					<input type="text" placeholder="請輸入標題" class="input-sty" id="addTitleTxt">
 				</div>
 			</div>
 			<div class="mmesg-bot">
 				<button class="history-btn history-cancel">取消</button>
-				<button class="history-btn">確認</button>
+				<button class="history-btn" onclick="addApp.addDrawResults();">確認</button>
 			</div>
 		</div>
 
@@ -146,23 +163,38 @@
 		</div>
 		
 		<!-- 開啟歷史繪圖清單 -->
-		<div class="draw-list-box" id="fileListBox" style="display: none;">
+		<div id="fileListBoxApp">
+		<div class="draw-list-box" id="fileListBox" style="display: none;">					
 			<div class="doc-tit-box">
 				<span>歷史繪圖清單</span>
 				<!-- <div class="box-close">關閉</div> -->
 				<button class="history-btn" id="closeFileListBox">關閉</button>
-			</div>
+			</div>		
 			<div class="draw-list-tit">
 				<div class="no-box">#</div>
 				<div class="doc-tit">標題</div>
 				<div class="doc-del">刪除</div>
-			</div>
-			<div>{{account}}</div>
-			<ul class="draw-list">
-				<li>
-					<div class="no-box">5</div>
+			</div>	
+								
+			<ul class="draw-list">				
+				<li v-if="drawItemArr.length > 0" v-for="(item, index) in drawItemArr">
+					<div class="no-box">{{index + 1}}</div>
 					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
+						<div class="doc-li-tit">{{item.Title}}</div>
+						<p>{{ transDate(item.CreatTime) }}</p>
+						<div class="doc-edit-box">
+							<button class="btn">編輯</button>
+							<button class="btn h-btn-download">下載</button>
+						</div>
+					</div>
+					<div class="doc-del">
+						<button type="button" name="del" @Click="deleteDrawData(item.IndexNo)"></button>
+					</div>
+				</li>	
+				<li v-else>
+					<div class="no-box">無資料</div>
+					<!--<div class="doc-li-box">
+						<div class="doc-li-tit">{{message}}</div>
 						<p>2023/01/04 16:56:04</p>
 						<div class="doc-edit-box">
 							<button class="btn">編輯</button>
@@ -171,181 +203,46 @@
 					</div>
 					<div class="doc-del">
 						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">4</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">3</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">2</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="no-box">1</div>
-					<div class="doc-li-box">
-						<div class="doc-li-tit">台灣基隆沿海禁航範圍標示</div>
-						<p>2023/01/04 16:56:04</p>
-						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
-							<button class="btn h-btn-download">下載</button>
-						</div>
-					</div>
-					<div class="doc-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-			</ul>
+					</div>-->
+				</li>			
+			</ul>		 	
 		</div>
+	</div>
 
 		<!-- 步驟記錄 -->
 		<div class="draw-list-box" id="historyListBox" style="display: none;">
 			<div class="doc-tit-box">
 				<span>繪圖步驟紀錄</span>
-				<button class="history-btn" id="closeHistoryListBox">退出繪圖</button>
+				<button class="history-btn" id="closeHistoryListBox" onclick="mapMain.methods.cancelAndClearSymbol();">退出繪圖</button>
 			</div>
 			<div class="h-list-tit">
 				<div class="h-tit-item">Item</div>
 				<div class="h-lat">Lat</div>
-				<div class="h-lan">Lng</div>
+				<div class="h-lan">lon</div>
 				<div class="h-km">km²</div>
 				<div class="h-del">Del</div>
 			</div>
 			<ul class="h-list">
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
+				<li v-if="drawSymbolArr.length == 0">
+					<div class="h-item"></div>
+					<div class="h-lat"></div>
+					<div class="h-lan"></div>
+					<div class="h-km"></div>
+					<div class="h-del">						
 					</div>
 				</li>
-				<li>
+				<li v-else-if="drawSymbolArr.length > 0" v-for="(item, index) in drawSymbolArr" :key="item.id">
 					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
+						<img :src="'Twn_D/img/draw_icon/draw_' + item.DrawType + '_' + item.DetailType + '_' + item.Color + '.svg'"  alt="">
 					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
+					<div class="h-lat">{{item.Lat.toFixed(2)}}</div>
+					<div class="h-lan">{{item.Lon.toFixed(2)}}</div>
+					<div class="h-km" v-if="item.Area === null">-</div>
+					<div class="h-km" v-else>{{item.Area}}</div>
 					<div class="h-del">
-						<button type="button" name="del"></button>
+						<button type="button" name="del" @Click="removeDrawSymbolArrItem(index, item.id)"></button>
 					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">1115.2</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-				<li>
-					<div class="h-item">
-						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
-					</div>
-					<div class="h-lat">121°52.194'E</div>
-					<div class="h-lan">119°46.866'E</div>
-					<div class="h-km">-</div>
-					<div class="h-del">
-						<button type="button" name="del"></button>
-					</div>
-				</li>
-
+				</li>			
 			</ul>
 			<div class="h-list-bottom">
 				<button class="history-btn h-btn-download">下載</button>
@@ -356,28 +253,28 @@
 		<div class="draw-color-box" id="drawColorPanel" style="display: none;">
 			<div class="symbo-tit">顏色</div>
 			<div class="symbo-item-group">
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color red on" style="background: #ED0000;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color orange" style="background: #F89B0C;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color yellow" style="background: #EFC816;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color green" style="background: #86CA32;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color blue" style="background: #308ED6;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color pink" style="background: #D430DA;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color purple" style="background: #8E16EF;"></div>
 				</div>
-				<div class="symbo-color-item" id="">
+				<div class="symbo-color-item" id="" onclick="mapMain.methods.cancel()">
 					<div class="symbo-color lightblue" style="background: #16CBEF;"></div>
 				</div>
 			</div>
@@ -387,52 +284,52 @@
 			<div class="symbo-group">
 				<div class="symbo-tit">符號</div>
 				<div class="symbo-item-group">
-					<div class="symbo-item on" id="">
+					<div class="symbo-item" id="symbol-0-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-1-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-2-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-3-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-4-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-5-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-6-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-7-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_7.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-8-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_8.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-9-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_9.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-10-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_10.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-11-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_11.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-12-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_12.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-13-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_13.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-14-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_14.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="symbol-15-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_symbo_15.svg" alt="">
 					</div>
 				</div>
@@ -440,28 +337,28 @@
 			<div class="symbo-group">
 				<div class="symbo-tit">地標</div>
 				<div class="symbo-item-group">
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-0-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_0.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-1-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_1.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-2-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_2.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-3-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_3.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-4-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_4.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-5-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_5.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-6-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_6.svg" alt="">
 					</div>
-					<div class="symbo-item" id="">
+					<div class="symbo-item" id="mark-7-point" onclick="mapMain.methods.starDraw(this)">
 						<img src="Twn_D/img/draw_icon/draw_mark_7.svg" alt="">
 					</div>
 				</div>
@@ -469,43 +366,43 @@
 			<div class="symbo-group">
 				<div class="symbo-item-group draw-ui-group">
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-0-point" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_0.svg" alt="">
 						</div>
 						<span>單點</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-1-line" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_1.svg" alt="">
 						</div>
 						<span>直線</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-2-multiline" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_2.svg" alt="">
 						</div>
 						<span>折線</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-3-square" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_3.svg" alt="">
 						</div>
 						<span>方框</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-4-circle" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_4.svg" alt="">
 						</div>
 						<span>圓形</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-5-triangle" onclick="mapMain.methods.starDraw(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_5.svg" alt="">
 						</div>
 						<span>三角</span>
 					</div>
 					<div class="symbo-item-txt">
-						<div class="symbo-item" id="">
+						<div class="symbo-item" id="ui-6-text" onclick="mapMain.methods.askUserBox(this)">
 							<img src="Twn_D/img/draw_icon/draw_ui_6.svg" alt="">
 						</div>
 						<span>文字</span>
@@ -2978,9 +2875,10 @@
 			</div>
 		</div>
 		<div class="maps-box">
-			<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+			<!--<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
 				src="https://www.openstreetmap.org/export/embed.html?bbox=120.22789679467678%2C22.524345575802077%2C120.38402281701566%2C22.615332737518795&amp;layer=mapnik"
-				style="border: 1px solid black"></iframe>
+				style="border: 1px solid black"></iframe>-->
+				<div id="mapView"></div>
 			<br />
 			<small>
 				<a href="https://www.openstreetmap.org/#map=14/22.5698/120.3060">查看更大的地圖</a>
@@ -3281,7 +3179,9 @@
 	</script>
 	<!-- <script src="Twn_D/js/transformDMS.js"></script> -->
 	<script type="text/javascript" src="Twn_D/js/backend.js"></script>
-	<script type="text/javascript" type="module" src="Twn_D/js/map/mapData.js"></script>
+	<script type="text/javascript" src="Twn_D/js/map/mapData.js"></script>
+	<script type="text/javascript" src="Twn_D/js/map/mapMain.js"></script>
+	
 </body>
 
 </html>
