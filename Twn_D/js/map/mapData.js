@@ -7,6 +7,7 @@ const config = {
     AddDrawResults : "api/MOTC/AddDrawResults",
     getDrawResults : "api/MOTC/GetDrawResults",
     DeleteDrawRecordData : "api/MOTC/DeleteDrawRecordData",
+    GetDrawDetailRecord:"api/MOTC/GetDrawDetailRecord",
   }
 };
 
@@ -145,7 +146,7 @@ let oldApp = createApp({
       return dateFullStr;
       //return year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
     },
-    deleteDrawData:function(indexNo){
+    deleteDrawRecordData:function(indexNo){
 
       let isDelete = confirm("確認刪除本筆資料??"); 
 
@@ -176,6 +177,63 @@ let oldApp = createApp({
           }
         });
       }
+    },
+    loadDrawDetailRecord:function(indexNo){
+      addApp.drawSymbolArr = [];
+
+      let self = this;
+
+      let data = {
+        IndexNo : indexNo,        
+      };
+
+      axios.post(
+        config.domainName + config.url.GetDrawDetailRecord, 
+        //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
+        data
+        ).then(function (response){
+          
+          let results = response.data;
+          /*console.log(results);
+          if(results.Status === 1){                 
+              self.drawItemArr = (results.Data === null || results.Data.length === 0) ? [] : results.Data;
+              //console.log(self.drawItemArr);
+              alert("刪除成功!~~");           
+          //alert("儲存成功");
+          }else{
+            self.drawItemArr = results.Data;
+            alert("刪除失敗!~~");
+          }*/
+          axios.post(
+            config.domainName + config.url.GetDrawDetailRecord, 
+            //mapData.data.Api.TestUrl + "api/FACOA/GetEventsData",
+            data
+            ).then(function (response){
+              
+              let results = response.data;
+              console.log(results);
+              if(results.Status === 1){
+                addApp.drawSymbolArr = results.Data;
+              }
+              //if(results.Status === 1){
+                //if(results.Data){
+
+                //}else{
+                  
+                //}                 
+                  //self.drawItemArr = (results.Data === null || results.Data.length === 0) ? [] : results.Data;
+                  //console.log(self.drawItemArr);
+                  //alert("刪除成功!~~");           
+              //alert("儲存成功");
+              //}else{
+                //self.drawItemArr = results.Data;
+                //alert("刪除失敗!~~");
+              //}
+            });
+
+        });      
+
+      $('#historyListBox').show();
     },
   }
 }).mount('#fileListBoxApp');

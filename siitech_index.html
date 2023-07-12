@@ -183,12 +183,12 @@
 						<div class="doc-li-tit">{{item.Title}}</div>
 						<p>{{ transDate(item.CreatTime) }}</p>
 						<div class="doc-edit-box">
-							<button class="btn">編輯</button>
+							<button class="btn" @Click="loadDrawDetailRecord(item.IndexNo)">編輯</button>
 							<button class="btn h-btn-download">下載</button>
 						</div>
 					</div>
 					<div class="doc-del">
-						<button type="button" name="del" @Click="deleteDrawData(item.IndexNo)"></button>
+						<button type="button" name="del" @Click="deleteDrawRecordData(item.IndexNo)"></button>
 					</div>
 				</li>	
 				<li v-else>
